@@ -3,7 +3,6 @@
 # Created by Mauro José Pappaterra on 25 January 2021.
 import create_dataset as ds
 import random
-import math
 
 def createInitialPool (object_list, size, capacity, pool_size, verbose):
     random_solutions = [[random.randint(0,1) for x in range(size)] for y in range(pool_size)]
@@ -106,7 +105,7 @@ def checkSolution (genome_pool, solution):
 def geneticAlgorithm (object_list, size, capacity, solution, pool_size, elite_size, mutation_probability, verbose):
     generation = 0
 
-    # Create Initial Solution Pool 
+    # Create Initial Solution Pool
     pool = createInitialPool(object_list, size, capacity, pool_size, verbose)
 
     while (not checkSolution(pool, solution)):
@@ -117,7 +116,10 @@ def geneticAlgorithm (object_list, size, capacity, solution, pool_size, elite_si
         pool = newGeneration (object_list, size, capacity, pool_size, elite_size, elitePool, mutation_probability, generation, verbose)
 
     print ("\nFound optimal solution after " + str(generation) + " generations")
-    printPool("\nSolution Pool:", pool)
+
+    if (verbose):
+        printPool("\nSolution Pool:", pool)
+
     print("\nOptimal Solution: " + str(solution) + "  >>  " + str(fitness(solution, object_list, capacity)) )
 
 # Global variables
@@ -126,7 +128,8 @@ ELITE_SIZE = 2 # no. of solutions to keep from each generation after natural sel
 MUTATION_PROBABILITY = 0.50
 VERBOSE = False
 
-# Database variabless
-OBJECT_LIST, SIZE, CAPACITY, SOLUTION = ds.getDataset("KNAPSACK_01/", "7", VERBOSE)
+for dataset in list(range(1,9)):
+    # Database variables
+    OBJECT_LIST, SIZE, CAPACITY, SOLUTION = ds.getDataset("KNAPSACK_01/", str(dataset), True)
+    geneticAlgorithm(OBJECT_LIST, SIZE, CAPACITY, SOLUTION, POOL_SIZE, ELITE_SIZE, MUTATION_PROBABILITY, VERBOSE)
 
-geneticAlgorithm(OBJECT_LIST, SIZE, CAPACITY, SOLUTION, POOL_SIZE, ELITE_SIZE, MUTATION_PROBABILITY, VERBOSE)
