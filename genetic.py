@@ -106,7 +106,7 @@ def checkSolution (genome_pool, solution):
 def geneticAlgorithm (object_list, size, capacity, solution, pool_size, elite_size, mutation_probability, verbose):
     generation = 0
 
-    # Create Initial Solution Pool
+    # Create Initial Solution Pool 
     pool = createInitialPool(object_list, size, capacity, pool_size, verbose)
 
     while (not checkSolution(pool, solution)):
