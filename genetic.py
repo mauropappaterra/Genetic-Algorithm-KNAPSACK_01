@@ -21,17 +21,21 @@ def crossover (solution_a, solution_b):
     # print(child_solution_a)
     child_solution_b = solution_b[:random_partition] + solution_a[random_partition:]
     # print(child_solution_b)
-    return [[child_solution_a,fitness(child_solution_a)], [child_solution_b,fitness(child_solution_b)]]
+    return [(child_solution_a,fitness(child_solution_a)), (child_solution_b,fitness(child_solution_b))]
 
 def naturalSelection (solution_pool):
     elitePool = [x for x in solution_pool if (x[1] > 0)]
 
     if(verbose):
-        print("After natural selection:")
-        for solution in elitePool:
-            print(solution)
+        printPool("After natural selection:", elitePool)
 
     return elitePool
+
+def printPool (message, solutionPool):
+    print(message)
+    for solution in solutionPool:
+        print(str(solution[0]) + "  >>  " + str(solution[1]))
+    print("\n")
 
 def generatePairs (pool_size, elite_size):
     pairs = []
@@ -53,13 +57,10 @@ def newGeneration (selection_pool, pool_size, generation):
     new_generation = []
 
     for pair in pairs:
-        new_generation = new_generation +  crossover(selection_pool[pair[0]][0],selection_pool[pair[1]][0])
+        new_generation = new_generation + crossover(selection_pool[pair[0]][0],selection_pool[pair[1]][0])
 
     if (verbose):
-        print ("\nGENERATION " + str(generation) + "\nSolution pool:")
-        for solution in new_generation:
-            print(str(solution))
-        print("\n")
+        printPool("\nGENERATION " + str(generation) + "\nSolution pool:", new_generation)
 
     return new_generation
 
@@ -68,17 +69,14 @@ def createInitialPool (pool_size):
     initialPool = []
 
     for solution in random_solutions:
-        initialPool.append([solution, fitness(solution)])
+        initialPool.append((solution, fitness(solution)))
 
     if (verbose):
-        print ("\nGENERATION 0 \nInitial solution pool:")
-        for solution in initialPool:
-            print(str(solution))
-        print("\n")
+        printPool("\nGENERATION 0 \nInitial solution pool:", initialPool)
 
     return initialPool
 
-def main (capacity, object_list, solution, size, verbose):
+def main (capacity, object_list, solution, size):
     POOL_SIZE = 10
 
     # Create Initial Solution Pool
@@ -95,7 +93,7 @@ def main (capacity, object_list, solution, size, verbose):
 verbose = True
 capacity, object_list, solution, size  = ds.getDataset("KNAPSACK_01/", "1", verbose)
 
-main(capacity, object_list, solution, size, verbose)
+main(capacity, object_list, solution, size)
 
 
 # TESTING METHODS
