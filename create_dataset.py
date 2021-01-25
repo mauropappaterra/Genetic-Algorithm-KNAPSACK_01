@@ -34,20 +34,14 @@ def getDataset (path, dataset, verbose):
                     object.profit) + "         " + str(solution[i]))
             print("\nCapacity: " + str(capacity) + "\nOptimal Solution: " + str(solution)+ "\n=======")
 
-        return (capacity, object_list, solution, len(solution))
+        return (object_list, len(solution), capacity, solution)
     except:
         print ("Error! Check if path is correct and dataset number between 1 - 8")
 
-# path = "KNAPSACK_01/"
-# dataset1 = getDataset(path, "1", True)
-# dataset2 = getDataset(path, "2", True)
-# dataset3 = getDataset(path, "3", True)
-# dataset4 = getDataset(path, "4", True)
-# dataset5 = getDataset(path, "5", True)
-# dataset6 = getDataset(path, "6", True)
-# dataset7 = getDataset(path, "7", True)
-
-# print (dataset1[0])
-# print (str(dataset1[1][9].profit))
+# TEST
+# dataset1 = getDataset("KNAPSACK_01/", "1", True)
+#
+# print (str(dataset1[0][9].profit))
+# print (str(dataset1[1]))
 # print (str(dataset1[2]))
 # print (str(dataset1[3]))
