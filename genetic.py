@@ -1,7 +1,6 @@
-# Genetic Algorithm
+# Genetic Algorithm - KNAPSACK_01
 # genetic.py
 # Created by Mauro José Pappaterra on 25 January 2021.
-
 import create_dataset as ds
 
 capacity, object_list, solution = ds.getDataset("KNAPSACK_01/", "1", False)
