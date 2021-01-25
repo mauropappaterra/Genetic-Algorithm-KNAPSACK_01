@@ -1,7 +1,6 @@
 # Genetic Algorithm - KNAPSACK_01
-# genetic.py
+# genetic_algorithm.py
 # Created by Mauro José Pappaterra on 25 January 2021.
-import create_dataset as ds
 import random
 
 def createInitialPool (object_list, size, capacity, pool_size, verbose):
@@ -121,15 +120,3 @@ def geneticAlgorithm (object_list, size, capacity, solution, pool_size, elite_si
         printPool("\nSolution Pool:", pool)
 
     print("\nOptimal Solution: " + str(solution) + "  >>  " + str(fitness(solution, object_list, capacity)) )
-
-# Global variables
-POOL_SIZE = 10
-ELITE_SIZE = 2 # no. of solutions to keep from each generation after natural selection
-MUTATION_PROBABILITY = 0.50
-VERBOSE = False
-
-for dataset in list(range(1,9)):
-    # Database variables
-    OBJECT_LIST, SIZE, CAPACITY, SOLUTION = ds.getDataset("KNAPSACK_01/", str(dataset), True)
-    geneticAlgorithm(OBJECT_LIST, SIZE, CAPACITY, SOLUTION, POOL_SIZE, ELITE_SIZE, MUTATION_PROBABILITY, VERBOSE)
-
