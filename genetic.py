@@ -23,6 +23,46 @@ def crossover (solution_a, solution_b):
     # print(child_solution_b)
     return [[child_solution_a,fitness(child_solution_a)], [child_solution_b,fitness(child_solution_b)]]
 
+def naturalSelection (solution_pool):
+    elitePool = [x for x in solution_pool if (x[1] > 0)]
+
+    if(verbose):
+        print("After natural selection:")
+        for solution in elitePool:
+            print(solution)
+
+    return elitePool
+
+def generatePairs (pool_size, elite_size):
+    pairs = []
+    while (len(pairs) < pool_size):
+        a = random.randint(0, elite_size - 1)
+        b = random.randint(0, elite_size - 1)
+
+        if (a != b):
+            pairs.append((a, b))
+
+    # for pair in pairs:
+    #     print(pair)
+
+    return pairs
+
+def newGeneration (selection_pool, pool_size, generation):
+    # Generate pairs for single point crossover function
+    pairs = generatePairs(pool_size/2, len(selection_pool))
+    new_generation = []
+
+    for pair in pairs:
+        new_generation = new_generation +  crossover(selection_pool[pair[0]][0],selection_pool[pair[1]][0])
+
+    if (verbose):
+        print ("\nGENERATION " + str(generation) + "\nSolution pool:")
+        for solution in new_generation:
+            print(str(solution))
+        print("\n")
+
+    return new_generation
+
 def createInitialPool (pool_size):
     random_solutions = [[random.randint(0,1) for x in range(size)] for y in range(pool_size)]
     initialPool = []
@@ -31,19 +71,26 @@ def createInitialPool (pool_size):
         initialPool.append([solution, fitness(solution)])
 
     if (verbose):
-        print ("GENERATION 0 \nInitial solution pool:")
+        print ("\nGENERATION 0 \nInitial solution pool:")
         for solution in initialPool:
             print(str(solution))
+        print("\n")
 
     return initialPool
 
 def main (capacity, object_list, solution, size, verbose):
-    GENERATION = 0
     POOL_SIZE = 10
 
     # Create Initial Solution Pool
+    generation = 0
     initialPool = createInitialPool(POOL_SIZE)
 
+    # Elitism: delete unfit solutions
+    elitePool = naturalSelection (initialPool)
+
+    # Create new generation
+    generation += 1
+    newPool = newGeneration (elitePool, POOL_SIZE, generation)
 
 verbose = True
 capacity, object_list, solution, size  = ds.getDataset("KNAPSACK_01/", "1", verbose)
