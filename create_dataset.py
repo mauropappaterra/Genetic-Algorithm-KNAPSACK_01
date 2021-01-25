@@ -32,9 +32,9 @@ def getDataset (path, dataset, verbose):
             for i, object in enumerate(object_list):
                 print("  " + str(i) + "        " + str(object.weight) + "       " + str(
                     object.profit) + "         " + str(solution[i]))
-            print("\nCapacity: " + str(capacity) + "\nOptimal Solution: " + str(solution))
+            print("\nCapacity: " + str(capacity) + "\nOptimal Solution: " + str(solution)+ "\n=== ===")
 
-        return (capacity, object_list, solution)
+        return (capacity, object_list, solution, len(solution))
     except:
         print ("Error! Check if path is correct and dataset number between 1 - 8")
 
@@ -50,3 +50,4 @@ def getDataset (path, dataset, verbose):
 # print (dataset1[0])
 # print (str(dataset1[1][9].profit))
 # print (str(dataset1[2]))
+# print (str(dataset1[3]))
