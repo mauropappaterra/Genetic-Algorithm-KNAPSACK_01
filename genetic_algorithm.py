@@ -16,7 +16,6 @@ def createInitialPool (object_list, size, capacity, pool_size, verbose):
     return initialPool
 
 def fitness (genome, object_list, capacity):
-
     total_weight = sum([object_list[i].weight for i,x in enumerate(genome) if (x == 1)])
 
     if (total_weight > capacity):
@@ -25,14 +24,20 @@ def fitness (genome, object_list, capacity):
     total_profit = sum([object_list[i].profit for i,x in enumerate(genome) if (x == 1)])
     return total_profit
 
-def naturalSelection (genome_pool, verbose):
+def naturalSelection (genome_pool, elite_size, verbose):
     elitePool = [x for x in genome_pool if (x[1] > 0)]
+    elitePoolSize = len(elitePool)
 
-    if (len(elitePool) == 0): # when no natural selection is possible
+    if (elitePoolSize == 0): # when no natural selection is possible
         return genome_pool
-    elif (len(elitePool) == 1): # when only 1 genome makes it to natural selection
-        random_genome = [x for x in genome_pool if (x not in elitePool)][0]
-        elitePool.append(random_genome)
+    elif (elitePoolSize < elite_size): # when less than determined elite size to natural selection
+        random_genome = [x for x in genome_pool if (x not in elitePool)]
+        genomes_needed = elite_size - elitePoolSize
+        i = 0
+        while (genomes_needed > 0):
+            elitePool.append(random_genome[i])
+            i+= 1
+            genomes_needed -= 1
 
     elitePool.sort(key=lambda x:x[1], reverse=True)
 
@@ -45,7 +50,6 @@ def printPool (message, genomePool):
     print(message)
     for genome in genomePool:
         print(str(genome[0]) + "  >>  " + str(genome[1]))
-
 
 def mutation (genome, size, mutation_probability):
     nonce = round(random.uniform(0, 1),2)
@@ -85,13 +89,13 @@ def generatePairs (pool_size, elite_pool_size):
 
     return pairs
 
-def crossover (renome_a, genome_b, object_list, size, capacity, mutation_probability):
+def crossover (genome_a, genome_b, object_list, size, capacity, mutation_probability):
     random_partition = random.randint(1, size - 1)
     # print(random_partition)
-    child_genome_a = renome_a[:random_partition] + genome_b[random_partition:]
+    child_genome_a = genome_a[:random_partition] + genome_b[random_partition:]
     child_genome_a = mutation(child_genome_a, size, mutation_probability)
     # print(child_genome_a)
-    child_genome_b = genome_b[:random_partition] + renome_a[random_partition:]
+    child_genome_b = genome_b[:random_partition] + genome_a[random_partition:]
     child_genome_b = mutation(child_genome_b, size, mutation_probability)
     # print(child_genome_b)
 
@@ -110,7 +114,7 @@ def geneticAlgorithm (object_list, size, capacity, solution, pool_size, elite_si
     while (not checkSolution(pool, solution)):
         generation += 1
         # Elitism: delete unfit solutions and keep best solutions from previous generation
-        elitePool = naturalSelection (pool, verbose)
+        elitePool = naturalSelection (pool, elite_size, verbose)
         # Create new generation
         pool = newGeneration (object_list, size, capacity, pool_size, elite_size, elitePool, mutation_probability, generation, verbose)
 

@@ -5,8 +5,8 @@ import create_dataset as ds
 import genetic_algorithm as ga
 
 # Global variables
-POOL_SIZE = 10
-ELITE_SIZE = 2 # no. of solutions to keep from each generation after natural selection
+POOL_SIZE = 100
+ELITE_SIZE = 10 # no. of solutions to keep from each generation after natural selection
 MUTATION_PROBABILITY = 0.50
 VERBOSE = False
 
