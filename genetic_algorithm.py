@@ -30,7 +30,7 @@ def naturalSelection (genome_pool, elite_size, verbose):
 
     if (elitePoolSize == 0): # when no natural selection is possible
         return genome_pool
-    elif (elitePoolSize < elite_size): # when less than determined elite size to natural selection
+    elif (elitePoolSize < elite_size): # when natural selection returns less than determined elite size
         random_genome = [x for x in genome_pool if (x not in elitePool)]
         genomes_needed = elite_size - elitePoolSize
         i = 0
